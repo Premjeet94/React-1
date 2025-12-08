@@ -1,0 +1,22 @@
+{
+  "name": "react-1",
+  "version": "1.0.0",
+  "description": "This is namaste react",
+  "license": "ISC",
+  "author": "Prem",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.3"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "tailwindcss": "^4.1.17"
+  }
+}
