@@ -1,16 +1,14 @@
-
-
+import { IMG_URL } from "../utils/constants";
 
 export const ResCard = ({res}) => {
-    const {name,cuisines,costForTwo,slugs,lastMileTravel,cloudinaryImageId,avgRating} = res.data;
+    const {name,cuisines,costForTwo,locality,cloudinaryImageId,avgRating} = res?.info;
+    const{lastMileTravel,deliveryTime} = res?.info?.sla;
   return (
-    <div className=" w-[23vh] h-[28vh] p-2 hover:cursor-pointer  hover:shadow-2xl rounded-2xl flex  flex-col gap-3">
+    <div className=" w-[23vh] h-[32vh] p-2 hover:cursor-pointer  hover:shadow-2xl rounded-2xl flex  flex-col gap-3">
       <div className="w-full h-60">
         <img
-          className="rounded-2xl h-full object-cover"
-          src={
-            "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_264,h_288,c_fill/"+
-            cloudinaryImageId}
+          className="rounded-2xl h-full object-fill"
+          src={IMG_URL + cloudinaryImageId}
         />
       </div>
       <div>
@@ -31,11 +29,12 @@ export const ResCard = ({res}) => {
         </div>
         <div className="flex justify-between text-gray-600">
           <p className=" overflow-hidden">{cuisines.join(", ")}</p>
-          <p>{costForTwo / 100} for two</p>
+          <p>{costForTwo}</p>
         </div>
-        <p className="text-gray-400 w-10">{slugs.city}</p>
+        <p className="text-gray-400 w-10">{locality}</p>
         <div className="flex justify-between">
           <h5 className="text-red-500">Opens at 12noon</h5>
+          <p>{deliveryTime} mins</p>
           <p>{lastMileTravel} km</p>
         </div>
       </div>

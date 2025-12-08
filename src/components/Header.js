@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { LOGO_URL } from "../utils/constants";
 
 export const Header = () => {
+
+    const [button, setButton] = useState('Login')
   return (
     <div className="head-container w-full h-[15vh] items-center border m-2 px-20 flex justify-between">
       <div className="logo-container w-30 h-30">
@@ -15,6 +18,9 @@ export const Header = () => {
           <li>AboutUs</li>
           <li>Contact</li>
           <li>Profile</li>
+          <button className="bg-amber-400 rounded p-2 w-30" onClick={()=>{
+            button === 'LogIn' ? setButton('LogOut'): setButton('LogIn')
+          }}>{button}</button>
         </ul>
       </div>
     </div>
