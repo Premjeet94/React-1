@@ -1,26 +1,55 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Body } from "./components/Body";
-import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
-
-
-
-
-
-
-
+import { Body } from "./components/Body.js";
+import { Footer } from "./components/Footer.js";
+import { Header } from "./components/Header.js";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
+import { About } from "./components/About.js";
+import { Error } from "./components/Error.js";
+import { Contact } from "./components/Contact.js";
+import { Profile } from "./components/Profile.js";
+import { ResMenu } from "./components/ResMenu.js";
 
 const AppLayout = () => {
   return (
-    <div className="w-screen px-4 py-4 flex flex-col items-center ">
+    <div className=" w-screen px-8 py-8 flex flex-col  items-center ">
       <Header />
-      <h1 className="font-medium text-4xl m-10">TOP FEATURED RESTAURANT</h1>
-      <Body />
-      <Footer />
+      <Outlet />
+      <Footer/>
     </div>
   );
 };
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <Body />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/profile",
+        element: <Profile/>,
+      },
+      {
+        path:'/menu/:resId',
+        element:<ResMenu/>
+      }
+    ],
+    errorElement:<Error/>
+  },
+]);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<AppLayout />);
+root.render(<RouterProvider router={router} />);

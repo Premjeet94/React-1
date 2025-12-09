@@ -4,16 +4,17 @@ export const ResCard = ({res}) => {
     const {name,cuisines,costForTwo,locality,cloudinaryImageId,avgRating} = res?.info;
     const{lastMileTravel,deliveryTime} = res?.info?.sla;
   return (
-    <div className=" w-[23vh] h-[32vh] p-2 hover:cursor-pointer  hover:shadow-2xl rounded-2xl flex  flex-col gap-3">
-      <div className="w-full h-60">
+    <div className="hover:cursor-pointer shrink-0 w-[220px] hover:shadow-2xl h-full rounded-2xl flex flex-col gap-3 hover:scale-95 px-4 py-4">
+      
+      <div className="w-full h-full">
         <img
-          className="rounded-2xl h-full object-fill"
+          className="object-cover w-full h-full rounded-xl"
           src={IMG_URL + cloudinaryImageId}
         />
       </div>
       <div>
         <div className="flex justify-between">
-          <h3 className="font-bold text-lg">{name}</h3>
+          <h3 className="font-bold  text-sm">{name}</h3>
           <div className="bg-[#267E3E] rounded text-center w-12 flex justify-center items-center text-white">
             {avgRating}
             <svg
@@ -28,10 +29,10 @@ export const ResCard = ({res}) => {
           </div>
         </div>
         <div className="flex justify-between text-gray-600">
-          <p className=" overflow-hidden">{cuisines.join(", ")}</p>
+          <p className=" overflow-hidden h-7 w-1/2">{cuisines.join(", ")}</p>
           <p>{costForTwo}</p>
         </div>
-        <p className="text-gray-400 w-10">{locality}</p>
+        <p className="text-gray-400 w-full">{locality}</p>
         <div className="flex justify-between">
           <h5 className="text-red-500">Opens at 12noon</h5>
           <p>{deliveryTime} mins</p>
