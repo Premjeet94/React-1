@@ -1,60 +1,68 @@
-
 import { useParams } from "react-router";
 import { Shimmer } from "./Shimmer";
 import { useRestaurantMenu } from "../utils/useRestaurantMenu";
+import { IMG_URL } from "../utils/constants";
+import { useState } from "react";
+import { ResMenuItem } from "./ResMenuItem";
+import { ResMenuHeader } from "./ResMenuHeader";
 
 export const ResMenu = () => {
+  const [showMenu, setshowMenu] = useState(null);
 
   const { resId } = useParams();
 
-  const menu = useRestaurantMenu(resId)
+  const menu = useRestaurantMenu(resId);
+  console.log(menu);
+
+  const filteredMenu =
+    menu?.data?.cards[5]?.groupedCard?.cardGroupMap.REGULAR?.cards.filter(
+      (m) =>
+        m.card?.["card"]?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+  console.log(filteredMenu);
 
   if (menu === null) return <Shimmer />;
   return (
-    <div className="flex flex-col mt-10 w-full max-w-7xl bg-yellow-500 rounded-3xl overflow-y-auto px-10 py-4 items-center">
-      <div className="flex items-start w-full mt-4">
-        <h1 className="text-4xl font-bold">
+    <div>
+      <div>
+        <h1 className="text-5xl font-bold mt-6">
           {menu?.data?.cards[0]?.card?.card?.text}
         </h1>
-      </div>
-      <div className="flex text-lg font-medium gap-1 items-start px-10 h-[150px] justify-center bg-gray-100 rounded-2xl flex-col w-full mt-4">
-        <h1>{menu?.data?.cards[2]?.card?.card?.info?.totalRatingsString}</h1>
-        <h1>{menu?.data?.cards[2]?.card?.card?.info?.costForTwoMessage}</h1>
-        <h1>{menu?.data?.cards[2]?.card?.card?.info?.cuisines}</h1>
-        <h1>Outlet -{menu?.data?.cards[2]?.card?.card?.info?.slugs?.city}</h1>
-        <h1>
-          Will be Delivered in {menu?.data?.cards[2]?.card?.card?.info?.sla?.slaString}
-        </h1>
-      </div>
-      <div className="flex text-3xl font-bold justify-center w-full mt-4">
-        <h1>Top Picks</h1>
-      </div>
+        <div className="flex gap-4 mt-6 text-3xl font-medium bg-gray-100 px-4 py-2 rounded-xl">
+          <h1>
+            Total Rating -{" "}
+            {menu?.data?.cards[2]?.card?.card?.info?.totalRatingsString}
+          </h1>
+          <h1>|</h1>
+          <h1>{menu?.data?.cards[2]?.card?.card?.info?.costForTwoMessage}</h1>
+          <h1>|</h1>
+          <h1>{menu?.data?.cards[2]?.card?.card?.info?.cuisines.join(", ")}</h1>
+          <h1>|</h1>
+          <h1>
+            Outlet - {menu?.data?.cards[2]?.card?.card?.info?.slugs?.city}
+          </h1>
+          <h1>|</h1>
+          <h1>
+            Will be Delivered in -
+            {Math.floor(
+              menu?.data?.cards[2]?.card?.card?.info?.sla?.deliveryTime / 60
+            )}{" "}
+            mins
+          </h1>
+        </div>
 
-      {menu?.data?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards[3]?.card?.card?.itemCards?.map(
-        (res, index) => {
-          const Img_url =
-            "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/";
+        {filteredMenu?.map((c, idx) => {
           return (
-            <div
-              className="flex justify-between px-10 h-[100px] font-bold text-sm items-center bg-white rounded-2xl w-full mt-4"
-              key={index}
-            >
-              <div className="gap-1 flex flex-col">
-                <h1>{res?.card?.info?.name}</h1>
-                <h1>Rs {res?.card?.info?.defaultPrice / 100}</h1>
-                <h1>{res?.card?.info?.ratings?.aggregatedRating?.rating}</h1>
-                <p>{res?.card?.info?.description}</p>
-              </div>
-              <div className="w-[100px] h-20">
-                <img
-                  className="object-cover w-full h-full rounded-xl"
-                  src={Img_url + res?.card?.info?.imageId}
-                />
-              </div>
-            </div>
+            <ResMenuHeader
+              key={idx}
+              c={c}
+              toggle={idx === showMenu ? true : false}
+              setshowMenu={() => setshowMenu(idx)}
+            />
           );
-        }
-      )}
+        })}
+      </div>
     </div>
   );
 };

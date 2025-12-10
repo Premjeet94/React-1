@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router";
+import { useInternetStatus } from "../utils/useInternetStatus";
+import { Grocery } from "./Grocery";
 
 export const Header = () => {
+  const [button, setButton] = useState("Login");
 
-    const [button, setButton] = useState('Login')
+  const OnlineStatus = useInternetStatus();
   return (
     <div className="head-container w-full h-[15vh] items-center border m-2 p-30 flex justify-between">
       <div className="logo-container w-30 h-30">
@@ -12,6 +15,7 @@ export const Header = () => {
       </div>
       <div className="null">
         <ul className="flex gap-20 text-lg font-medium">
+          <li>{OnlineStatus ? "Online: 🟢" : "Offline: 🔴"}</li>
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -22,7 +26,10 @@ export const Header = () => {
             <Link to="/contact">Contact</Link>
           </li>
           <li>
-            <Link to='/profile'>Profile</Link>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
+            <Link to="/grocery">Grocery</Link>
           </li>
           <button
             className="bg-amber-400 rounded p-2 w-30 active:scale-95 hover:cursor-pointer"

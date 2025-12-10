@@ -1,11 +1,11 @@
 import { IMG_URL } from "../utils/constants";
 
-export const ResCard = ({res}) => {
-    const {name,cuisines,costForTwo,locality,cloudinaryImageId,avgRating} = res?.info;
-    const{lastMileTravel,deliveryTime} = res?.info?.sla;
+export const ResCard = ({ res }) => {
+  const { name, cuisines, costForTwo, locality, cloudinaryImageId, avgRating } =
+    res?.info;
+  const { lastMileTravel, deliveryTime } = res?.info?.sla;
   return (
     <div className="hover:cursor-pointer shrink-0 w-[220px] hover:shadow-2xl h-full rounded-2xl flex flex-col gap-3 hover:scale-95 px-4 py-4">
-      
       <div className="w-full h-full">
         <img
           className="object-cover w-full h-full rounded-xl"
@@ -41,4 +41,17 @@ export const ResCard = ({res}) => {
       </div>
     </div>
   );
+};
+
+export const withPromoted = (ResCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label className="absolute m-4 p-4 text-lg bg-black text-white">
+         promoted
+        </label>
+        <ResCard {...props} />
+      </div>
+    );
+  };
 };

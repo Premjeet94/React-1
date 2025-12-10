@@ -1,4 +1,4 @@
-import { ResCard } from "./ResCard";
+import { ResCard, withPromoted } from "./ResCard";
 import { useRestaurantData } from "../utils/useRestaurantData.js";
 import { useEffect, useState } from "react";
 import { Shimmer } from "./Shimmer";
@@ -8,8 +8,8 @@ export const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [FilteredRest, setFilteredRest] = useState([]);
   const [searchText, setSearchText] = useState("");
-
   const jsonData = useRestaurantData();
+  console.log(listOfRestaurants);
   useEffect(() => {
     if (!jsonData) return;
     setListOfRestaurants(jsonData);
@@ -74,7 +74,14 @@ export const Body = () => {
         <div className="flex gap-6 mt-8 pb-4 w-max ">
           {FilteredRest.map((res) => {
             return (
-              <Link key={res.info.id} to={"/menu/" + res.info.id}>
+              // <Link key={res?.info?.id} to={"/menu/" + res?.info?.id}>
+              //   { res?.length != 0 ? (
+              //     <ResCardWithPromoted res={res} />
+              //   ) : (
+              //     <ResCard res={res} />
+              //   )}
+              // </Link>
+              <Link key={res?.info?.id} to={"/menu/" + res?.info?.id}>
                 <ResCard res={res} />
               </Link>
             );
