@@ -1,27 +1,15 @@
-import { useEffect, useState } from "react";
+
 import { useParams } from "react-router";
 import { Shimmer } from "./Shimmer";
+import { useRestaurantMenu } from "../utils/useRestaurantMenu";
 
 export const ResMenu = () => {
+
   const { resId } = useParams();
-  console.log(resId);
 
-  const [menu, setMenu] = useState(null);
-  const URL = "https://proxy.corsfix.com/?https://www.swiggy.com/mapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.65420&lng=77.23730&restaurantId=";
-  const handler = "&submitAction=ENTER";
-
-  const fetchData = async () => {
-    const data = await fetch(URL+resId+handler);
-    const json = await data.json();
-    setMenu(json);
-    console.log(json);
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const menu = useRestaurantMenu(resId)
 
   if (menu === null) return <Shimmer />;
-
   return (
     <div className="flex flex-col mt-10 w-full max-w-7xl bg-yellow-500 rounded-3xl overflow-y-auto px-10 py-4 items-center">
       <div className="flex items-start w-full mt-4">
@@ -57,7 +45,7 @@ export const ResMenu = () => {
                 <h1>{res?.card?.info?.ratings?.aggregatedRating?.rating}</h1>
                 <p>{res?.card?.info?.description}</p>
               </div>
-              <div className="w-[100px] h-[80px]">
+              <div className="w-[100px] h-20">
                 <img
                   className="object-cover w-full h-full rounded-xl"
                   src={Img_url + res?.card?.info?.imageId}

@@ -12,7 +12,7 @@ import { ResMenu } from "./components/ResMenu.js";
 
 const AppLayout = () => {
   return (
-    <div className=" w-screen px-8 py-8 flex flex-col  items-center ">
+    <div className=" w-screen px-8 py-8 flex flex-col   items-center ">
       <Header />
       <Outlet />
       <Footer/>

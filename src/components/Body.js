@@ -1,5 +1,5 @@
 import { ResCard } from "./ResCard";
-
+import { useRestaurantData } from "../utils/useRestaurantData.js";
 import { useEffect, useState } from "react";
 import { Shimmer } from "./Shimmer";
 import { Link } from "react-router";
@@ -9,28 +9,15 @@ export const Body = () => {
   const [FilteredRest, setFilteredRest] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  const AboveFourStar = () => {
-    setListOfRestaurants(
-      listOfRestaurants.filter((res) => res.info.avgRating > 4)
-    );
-  };
-
+  const jsonData = useRestaurantData();
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!jsonData) return;
+    setListOfRestaurants(jsonData);
+    setFilteredRest(jsonData);
+  }, [jsonData]);
 
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://proxy.corsfix.com/?https://www.swiggy.com/mapi/restaurants/list/v5?offset=0&is-seo-homepage-enabled=true&lat=28.65420&lng=77.23730&carousel=true&third_party_vendor=1"
-    );
-    const json = await data.json();
-    console.log(json);
-    setListOfRestaurants(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredRest(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
+  const AboveFourStar = () => {
+    setListOfRestaurants(jsonData.filter((res) => res.info.avgRating > 4));
   };
 
   return listOfRestaurants.length === 0 ? (
@@ -59,7 +46,7 @@ export const Body = () => {
           Search
         </button>
 
-        <div className="w-50 h-screen flex justify-center items-start ">
+        <div className="w-50 flex justify-center items-start ">
           <button
             onClick={() => AboveFourStar()}
             className="bg-amber-300 h-10 font-medium text-lg rounded-md w-30 gap-1 flex items-center hover:cursor-pointer  justify-center active:scale-90"
@@ -87,7 +74,9 @@ export const Body = () => {
         <div className="flex gap-6 mt-8 pb-4 w-max ">
           {FilteredRest.map((res) => {
             return (
-              <Link key={res.info.id} to={"/menu/"+res.info.id}> <ResCard res={res} /></Link>
+              <Link key={res.info.id} to={"/menu/" + res.info.id}>
+                <ResCard res={res} />
+              </Link>
             );
           })}
         </div>
