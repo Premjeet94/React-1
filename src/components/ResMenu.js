@@ -12,7 +12,7 @@ export const ResMenu = () => {
   const { resId } = useParams();
 
   const menu = useRestaurantMenu(resId);
-  console.log(menu);
+
 
   const filteredMenu =
     menu?.data?.cards[5]?.groupedCard?.cardGroupMap.REGULAR?.cards.filter(
@@ -20,7 +20,7 @@ export const ResMenu = () => {
         m.card?.["card"]?.["@type"] ===
         "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
     );
-  console.log(filteredMenu);
+
 
   if (menu === null) return <Shimmer />;
   return (
@@ -58,7 +58,7 @@ export const ResMenu = () => {
               key={idx}
               c={c}
               toggle={idx === showMenu ? true : false}
-              setshowMenu={() => setshowMenu(idx)}
+              setshowMenu={() => setshowMenu(prev=>(prev===idx?null:idx))}
             />
           );
         })}

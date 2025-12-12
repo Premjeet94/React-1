@@ -3,11 +3,15 @@ import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router";
 import { useInternetStatus } from "../utils/useInternetStatus";
 import { Grocery } from "./Grocery";
+import { useSelector } from "react-redux";
 
 export const Header = () => {
   const [button, setButton] = useState("Login");
 
   const OnlineStatus = useInternetStatus();
+
+  const cartItems = useSelector((store) => store.cart.items)
+  console.log(cartItems)
   return (
     <div className="head-container w-full h-[15vh] items-center border m-2 p-30 flex justify-between">
       <div className="logo-container w-30 h-30">
@@ -30,6 +34,9 @@ export const Header = () => {
           </li>
           <li>
             <Link to="/grocery">Grocery</Link>
+          </li>
+          <li>
+            <Link to="/cart">🛒{cartItems.length===1?`${cartItems.length} item`:`${cartItems.length} items`}</Link>
           </li>
           <button
             className="bg-amber-400 rounded p-2 w-30 active:scale-95 hover:cursor-pointer"

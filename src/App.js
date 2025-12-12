@@ -10,13 +10,18 @@ import { Contact } from "./components/Contact.js";
 import { Profile } from "./components/Profile.js";
 import { ResMenu } from "./components/ResMenu.js";
 import { Shimmer } from "./components/Shimmer.js";
+import { Provider } from "react-redux";
+import AppStore from "./utils/Appstore.js";
+import { Cart } from "./components/Cart.js";
 
 const AppLayout = () => {
   return (
     <div className=" w-screen px-8 py-8 flex flex-col   items-center ">
-      <Header />
-      <Outlet />
-      <Footer/>
+      <Provider store={AppStore}>
+        <Header />
+        <Outlet />
+        <Footer />
+      </Provider>
     </div>
   );
 };
@@ -53,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "/grocery",
         element: <Suspense fallback={<Shimmer/>}><Grocery /></Suspense>
+      },
+      {
+        path:'/cart',
+        element:<Cart/>,
       },
     ],
     errorElement: <Error />,

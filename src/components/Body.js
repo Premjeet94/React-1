@@ -9,7 +9,7 @@ export const Body = () => {
   const [FilteredRest, setFilteredRest] = useState([]);
   const [searchText, setSearchText] = useState("");
   const jsonData = useRestaurantData();
-  console.log(listOfRestaurants);
+
   useEffect(() => {
     if (!jsonData) return;
     setListOfRestaurants(jsonData);

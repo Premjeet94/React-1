@@ -1,13 +1,20 @@
+import { useDispatch } from "react-redux";
 import { IMG_URL } from "../utils/constants";
+import { addItem } from "../utils/cartSlice";
 
 export const ResMenuItem = ({ m }) => {
-  console.log(m);
+
+  const dispatch = useDispatch();
+  const handleAddItem = (m) =>{
+    dispatch(addItem(m))
+  }
+
   return (
     <div>
       {m.card.card.itemCards.map((m) => (
         <div
           key={m?.card?.info?.id}
-          className="flex justify-between items-center mt-4 border-t border-gray-200 px-4 py-2"
+          className="flex justify-between items-center mt-4 border-t border-gray-200 h-40 w-full  px-4 py-2"
         >
           {" "}
           <div className="mt-4 gap-3 flex flex-col">
@@ -22,11 +29,14 @@ export const ResMenuItem = ({ m }) => {
               {m?.card?.info?.description}
             </p>
           </div>
-          <div className="w-20 h-full ">
+          <div className=" flex flex-col h-35  items-center justify-center relative w-25 ">
             <img
-              className="rounded-xl object-cover"
+              className="rounded-xl object-cover h-30 w-25 "
               src={IMG_URL + m?.card?.info?.imageId}
             />
+            <button className="bg-white  mt-2 h-8 w-20 text-sm hover:bg-gray-100 text-gray-800 font-bold py-2 px-4 border border-gray-400 rounded-lg shadow absolute  bottom-0.5 active:scale-99" onClick={()=>handleAddItem(m)}>
+              Add +
+            </button>
           </div>
         </div>
       ))}
